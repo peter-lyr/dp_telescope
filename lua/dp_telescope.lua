@@ -256,9 +256,9 @@ telescope.setup {
 
 M.defaults = {
   ['<leader>'] = {
-    ['<leader>'] = { function() funcs.find_files() end, 'telescope: find files in current project', mode = { 'n', 'v', }, },
-    b = { function() funcs.buffers() end, 'telescope: buffers in current project', mode = { 'n', 'v', }, },
-    q = { function() funcs.git_status() end, 'telescope: find files in current project git modified', mode = { 'n', 'v', }, },
+    ['<leader>'] = { function() funcs.find_files_in_current_project() end, funcs.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },
+    b = { function() funcs.buffers_in_current_project() end, funcs.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
+    q = { function() funcs.find_files_in_current_project_git_modified() end, funcs.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
     -- s = {
     --   name = 'telescope',
     -- },

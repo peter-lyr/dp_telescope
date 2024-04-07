@@ -3,6 +3,11 @@
 
 local M = {}
 
+local B = require 'dp_base'
+
+M.source = B.getsource(debug.getinfo(1)['source'])
+M.lua = B.getlua(M.source)
+
 function M.setreg()
   vim.g.telescope_entered = true
   local bak = vim.fn.getreg '"'
@@ -50,17 +55,20 @@ function M.setreg()
   end)
 end
 
-function M.find_files()
+function M.find_files_in_current_project(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
   vim.cmd 'Telescope find_files'
 end
 
-function M.buffers()
+function M.buffers_in_current_project(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
   vim.cmd 'Telescope buffers'
 end
 
-function M.git_status()
+function M.find_files_in_current_project_git_modified(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
   vim.cmd 'Telescope git_status'
 end

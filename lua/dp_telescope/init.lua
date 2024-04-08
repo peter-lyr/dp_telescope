@@ -5,31 +5,19 @@ local M = {}
 
 local sta, B = pcall(require, 'dp_base')
 
-if not sta then
-  print('Dp_base is required!', debug.getinfo(1)['source'])
-  return
-end
+if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
-local fails = B.check_plugins {
+if B.check_plugins {
+  'folke/which-key.nvim',
   'nvim-lua/plenary.nvim',
   'nvim-tree/nvim-web-devicons',
   'ahmedkhalf/project.nvim',
   'dbakker/vim-projectroot',
-}
+} then return end
 
-if #fails > 0 then
-  print('Below is required:')
-  for _, fail in ipairs(fails) do
-    print(' ', fail)
-  end
-  return
-end
-
-local funcs = require 'dp_telescope.funcs'
-
-B.merge_other_functions {
-  funcs,
-}
+B.merge_other_functions(M, {
+  require 'dp_telescope.funcs',
+})
 
 local telescope = require 'telescope'
 local actions = require 'telescope.actions'
@@ -290,12 +278,7 @@ M.defaults = {
 }
 
 function M.setup(options)
-  local sta, whichkey = pcall(require, 'which-key')
-  if not sta then
-    vim.notify 'no which-key found, setup for dp_telescope failed!'
-    return
-  end
-  whichkey.register(vim.tbl_deep_extend('force', {}, M.defaults, options or {}))
+  require 'which-key'.register(vim.tbl_deep_extend('force', {}, M.defaults, options or {}))
 end
 
 return M

@@ -268,6 +268,18 @@ telescope.setup {
   },
 }
 
+-- ui-select
+telescope.load_extension 'ui-select'
+
+-- projects
+telescope.load_extension 'my_projects'
+
+require 'project_nvim'.setup {
+  manual_mode = false,
+  detection_methods = { 'pattern', 'lsp', },
+  patterns = { '.git', },
+}
+
 M.defaults = {
   ['<leader>'] = {
     ['<leader>'] = { function() M.find_files_in_current_project() end, M.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },

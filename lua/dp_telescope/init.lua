@@ -8,12 +8,14 @@ local sta, B = pcall(require, 'dp_base')
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
 if B.check_plugins {
-  'folke/which-key.nvim',
-  'nvim-lua/plenary.nvim',
-  'nvim-tree/nvim-web-devicons',
-  'ahmedkhalf/project.nvim',
-  'dbakker/vim-projectroot',
-} then return end
+      'folke/which-key.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'ahmedkhalf/project.nvim',
+      'dbakker/vim-projectroot',
+    } then
+  return
+end
 
 B.merge_other_functions(M, {
   require 'dp_telescope.funcs',

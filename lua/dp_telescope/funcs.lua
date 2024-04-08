@@ -79,4 +79,10 @@ function M.command_history(...)
   vim.cmd 'Telescope command_history'
 end
 
+function M.live_grep(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  vim.cmd 'Telescope live_grep'
+end
+
 return M

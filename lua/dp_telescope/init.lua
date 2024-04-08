@@ -274,6 +274,7 @@ M.defaults = {
     b = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
     q = { function() M.find_files_in_current_project_git_modified() end, M.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
     h = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, },
+    l = { function() M.live_grep() end, M.live_grep 'telescope', mode = { 'n', 'v', }, },
     -- s = {
     --   name = 'telescope',
     -- },

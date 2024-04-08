@@ -25,7 +25,11 @@ if #fails > 0 then
   return
 end
 
-local funcs = require 'dp_telescope_funcs'
+local funcs = require 'dp_telescope.funcs'
+
+B.merge_other_functions {
+  funcs,
+}
 
 local telescope = require 'telescope'
 local actions = require 'telescope.actions'
@@ -276,9 +280,9 @@ telescope.setup {
 
 M.defaults = {
   ['<leader>'] = {
-    ['<leader>'] = { function() funcs.find_files_in_current_project() end, funcs.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },
-    b = { function() funcs.buffers_in_current_project() end, funcs.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
-    q = { function() funcs.find_files_in_current_project_git_modified() end, funcs.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
+    ['<leader>'] = { function() M.find_files_in_current_project() end, M.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },
+    b = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
+    q = { function() M.find_files_in_current_project_git_modified() end, M.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
     -- s = {
     --   name = 'telescope',
     -- },

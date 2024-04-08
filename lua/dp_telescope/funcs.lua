@@ -85,4 +85,21 @@ function M.live_grep(...)
   vim.cmd 'Telescope live_grep'
 end
 
+function M.projects_do()
+  M.setreg()
+  vim.cmd 'Telescope my_projects'
+end
+
+function M.all_projects_opened(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.projects_do()
+  vim.cmd [[call feedkeys("\<esc>")]]
+  B.lazy_map {
+    { '<leader>sk', M.projects_do, mode = { 'n', 'v', }, silent = true, desc = 'telescope: all projects opened', },
+  }
+  vim.fn.timer_start(20, function()
+    vim.cmd [[call feedkeys(":Telescope my_projects\<cr>")]]
+  end)
+end
+
 return M

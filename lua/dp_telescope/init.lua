@@ -287,9 +287,10 @@ M.defaults = {
     q = { function() M.find_files_in_current_project_git_modified() end, M.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
     h = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, },
     l = { function() M.live_grep() end, M.live_grep 'telescope', mode = { 'n', 'v', }, },
-    -- s = {
-    --   name = 'telescope',
-    -- },
+    s = {
+      name = 'telescope',
+      k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
+    },
   },
 }
 

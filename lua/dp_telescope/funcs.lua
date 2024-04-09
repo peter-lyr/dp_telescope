@@ -5,6 +5,8 @@ local M = {}
 
 local B = require 'dp_base'
 
+local extensions = require 'telescope'.extensions
+
 M.source = B.getsource(debug.getinfo(1)['source'])
 M.lua = B.getlua(M.source)
 
@@ -89,6 +91,21 @@ function M.live_grep(...)
   if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
   vim.cmd 'Telescope live_grep'
+end
+
+function M.file_browser_cwd(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  extensions.file_browser.file_browser()
+end
+
+function M.file_browser_h(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  extensions.file_browser.file_browser {
+    path = '%:p:h',
+    select_buffer = true,
+  }
 end
 
 function M.projects_do()

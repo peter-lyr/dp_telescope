@@ -304,6 +304,8 @@ M.defaults = {
     h = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, },
     ['<c-h>'] = { function() M.commands() end, M.commands 'telescope', mode = { 'n', 'v', }, },
     l = { function() M.live_grep() end, M.live_grep 'telescope', mode = { 'n', 'v', }, },
+    i = { function() M.file_browser_h() end, M.file_browser_h 'telescope', mode = { 'n', 'v', }, },
+    o = { function() M.file_browser_cwd() end, M.file_browser_cwd 'telescope', mode = { 'n', 'v', }, },
     s = {
       name = 'telescope',
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },

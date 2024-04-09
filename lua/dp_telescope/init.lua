@@ -309,6 +309,11 @@ M.defaults = {
     s = {
       name = 'telescope',
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
+      h = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
+      v = {
+        name = 'telescope.more',
+        h = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
+      },
     },
   },
 }

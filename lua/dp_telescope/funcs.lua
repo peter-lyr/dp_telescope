@@ -125,4 +125,16 @@ function M.all_projects_opened(...)
   end)
 end
 
+function M.search_history(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  vim.cmd 'Telescope search_history'
+end
+
+function M.help_tags(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  vim.cmd 'Telescope help_tags'
+end
+
 return M

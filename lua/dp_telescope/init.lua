@@ -13,6 +13,7 @@ if B.check_plugins {
       'nvim-tree/nvim-web-devicons',
       'ahmedkhalf/project.nvim',
       'dbakker/vim-projectroot',
+      'nvim-telescope/telescope-file-browser.nvim',
     } then
   return
 end
@@ -266,6 +267,18 @@ telescope.setup {
     wrap_results = false,
     initial_mode = 'insert',
   },
+  extensions = {
+    file_browser = {
+      theme = 'ivy',
+      hijack_netrw = true,
+      mappings = {
+        ['i'] = {
+        },
+        ['n'] = {
+        },
+      },
+    },
+  },
 }
 
 -- ui-select
@@ -279,6 +292,9 @@ require 'project_nvim'.setup {
   detection_methods = { 'pattern', 'lsp', },
   patterns = { '.git', },
 }
+
+-- file_browser
+require 'telescope'.load_extension 'file_browser'
 
 M.defaults = {
   ['<leader>'] = {

@@ -144,10 +144,23 @@ telescope.setup {
 
         ['<c-a>'] = actions.select_all,
         ['<c-y>'] = actions.toggle_all,
-        ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-        ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
-        ['<C-Tab>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<M-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
+
+        ['<Tab>'] = { function(prompt_bufnr)
+          actions.toggle_selection(prompt_bufnr)
+          actions.move_selection_worse(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: toggle select next', }, },
+        ['<S-Tab>'] = { function(prompt_bufnr)
+          actions.toggle_selection(prompt_bufnr)
+          actions.move_selection_better(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: toggle select prev', }, },
+        ['<C-Tab>'] = { function(prompt_bufnr)
+          actions.send_to_qflist(prompt_bufnr)
+          actions.open_qflist(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: send_to_qflist open_qflist', }, },
+        ['<M-q>'] = { function(prompt_bufnr)
+          actions.send_selected_to_qflist(prompt_bufnr)
+          actions.open_qflist(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: send_to_qflist open_qflist', }, },
 
         ['<C-/>'] = actions.which_key,
 
@@ -211,10 +224,22 @@ telescope.setup {
         ['dl'] = actions.select_vertical,
         ['dk'] = actions.select_tab,
 
-        ['<Tab>'] = actions.toggle_selection + actions.move_selection_worse,
-        ['<S-Tab>'] = actions.toggle_selection + actions.move_selection_better,
-        ['<C-Tab>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<M-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
+        ['<Tab>'] = { function(prompt_bufnr)
+          actions.toggle_selection(prompt_bufnr)
+          actions.move_selection_worse(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: toggle select next', }, },
+        ['<S-Tab>'] = { function(prompt_bufnr)
+          actions.toggle_selection(prompt_bufnr)
+          actions.move_selection_better(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: toggle select prev', }, },
+        ['<C-Tab>'] = { function(prompt_bufnr)
+          actions.send_to_qflist(prompt_bufnr)
+          actions.open_qflist(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: send_to_qflist open_qflist', }, },
+        ['<M-q>'] = { function(prompt_bufnr)
+          actions.send_selected_to_qflist(prompt_bufnr)
+          actions.open_qflist(prompt_bufnr)
+        end, type = 'action', opts = { nowait = true, silent = true, desc = 'nvim.telescope: send_to_qflist open_qflist', }, },
 
         ['j'] = actions.move_selection_next,
         ['k'] = actions.move_selection_previous,

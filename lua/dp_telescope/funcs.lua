@@ -66,7 +66,7 @@ end
 function M.buffers_in_current_project(...)
   if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
-  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true ignore_current_buffer=true'
+  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
 end
 
 function M.find_files_in_current_project_git_modified(...)

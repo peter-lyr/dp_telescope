@@ -8,7 +8,11 @@ local sta, B = pcall(require, 'dp_base')
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
 if B.check_plugins {
+      'git@github.com:peter-lyr/dp_init',
       'folke/which-key.nvim',
+      'nvim-notify',
+      'git@github.com:peter-lyr/telescope.nvim',
+      -- 'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
       'ahmedkhalf/project.nvim',
@@ -316,6 +320,7 @@ require 'project_nvim'.setup {
   manual_mode = false,
   detection_methods = { 'pattern', 'lsp', },
   patterns = { '.git', },
+  datapath = DataSub,
 }
 
 -- file_browser
@@ -333,10 +338,14 @@ M.defaults = {
     o = { function() M.file_browser_cwd() end, M.file_browser_cwd 'telescope', mode = { 'n', 'v', }, },
     s = {
       name = 'telescope',
+      ['<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, M.find_files_in_current_project_no_ignore 'telescope', mode = { 'n', 'v', }, },
+      l = { function() M.live_grep_no_ignore() end, M.live_grep_no_ignore 'telescope', mode = { 'n', 'v', }, },
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
       h = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
       v = {
         name = 'telescope.more',
+        ['<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
+        l = { function() M.live_grep_in_all_dp_plugins() end, M.live_grep_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
         h = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
       },
     },

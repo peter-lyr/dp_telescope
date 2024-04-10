@@ -3,104 +3,89 @@
 
 local M = {}
 
-local B = require 'dp_base'
+local sta, B = pcall(require, 'dp_base')
+
+if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
 local extensions = require 'telescope'.extensions
-
-M.source = B.getsource(debug.getinfo(1)['source'])
-M.lua = B.getlua(M.source)
+local builtin = require 'telescope.builtin'
 
 function M.setreg()
   vim.g.telescope_entered = true
-  local bak = vim.fn.getreg '"'
-  local save_cursor = vim.fn.getpos '.'
-  local line = vim.fn.trim(vim.fn.getline '.')
-  vim.g.curline = line
-  if string.match(line, [[%']]) then
-    vim.cmd "silent norm yi'"
-    vim.g.single_quote = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, [[%"]]) then
-    vim.cmd 'keepjumps silent norm yi"'
-    vim.g.double_quote = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, [[%`]]) then
-    vim.cmd 'keepjumps silent norm yi`'
-    vim.g.back_quote = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, [[%)]]) then
-    vim.cmd 'keepjumps silent norm yi)'
-    vim.g.parentheses = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, '%]') then
-    vim.cmd 'keepjumps silent norm yi]'
-    vim.g.bracket = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, [[%}]]) then
-    vim.cmd 'keepjumps silent norm yi}'
-    vim.g.brace = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  if string.match(line, [[%>]]) then
-    vim.cmd 'keepjumps silent norm yi>'
-    vim.g.angle_bracket = vim.fn.getreg '"' ~= bak and vim.fn.getreg '"' or ''
-    pcall(vim.fn.setpos, '.', save_cursor)
-  end
-  vim.fn.setreg('"', bak)
+  B.setreg()
   vim.fn.timer_start(4000, function()
     vim.g.telescope_entered = nil
   end)
 end
 
 function M.find_files_in_current_project(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'find_files_in_current_project') end
   M.setreg()
   vim.cmd 'Telescope find_files'
 end
 
-function M.buffers_in_current_project(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+function M.find_files_in_current_project_no_ignore(...)
+  if ... then return B.concant_info(..., 'find_files_in_current_project_no_ignore') end
   M.setreg()
-  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
+  vim.cmd 'Telescope find_files find_command=fd,--no-ignore,--hidden'
+end
+
+function M.find_files_in_all_dp_plugins(...)
+  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins') end
+  M.setreg()
+  builtin.find_files { search_dirs = B.get_dp_plugins(), }
 end
 
 function M.find_files_in_current_project_git_modified(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'find_files_in_current_project_git_modified') end
   M.setreg()
   vim.cmd 'Telescope git_status'
 end
 
+function M.buffers_in_current_project(...)
+  if ... then return B.concant_info(..., 'buffers_in_current_project') end
+  M.setreg()
+  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
+end
+
 function M.command_history(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'command_history') end
   M.setreg()
   vim.cmd 'Telescope command_history'
 end
 
 function M.commands(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'commands') end
   M.setreg()
   vim.cmd 'Telescope commands'
 end
 
 function M.live_grep(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'live_grep') end
   M.setreg()
   vim.cmd 'Telescope live_grep'
 end
 
+function M.live_grep_no_ignore(...)
+  if ... then return B.concant_info(..., 'live_grep_no_ignore') end
+  M.setreg()
+  vim.cmd 'Telescope live_grep glob_pattern=*'
+end
+
+function M.live_grep_in_all_dp_plugins(...)
+  if ... then return B.concant_info(..., 'live_grep_in_all_dp_plugins') end
+  M.setreg()
+  builtin.live_grep { search_dirs = B.get_dp_plugins(), }
+end
+
 function M.file_browser_cwd(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'file_browser_cwd') end
   M.setreg()
   extensions.file_browser.file_browser()
 end
 
 function M.file_browser_h(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'file_browser_h') end
   M.setreg()
   extensions.file_browser.file_browser {
     path = '%:p:h',
@@ -114,7 +99,7 @@ function M.projects_do()
 end
 
 function M.all_projects_opened(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'all_projects_opened') end
   M.projects_do()
   vim.cmd [[call feedkeys("\<esc>")]]
   B.lazy_map {
@@ -126,13 +111,13 @@ function M.all_projects_opened(...)
 end
 
 function M.search_history(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'search_history') end
   M.setreg()
   vim.cmd 'Telescope search_history'
 end
 
 function M.help_tags(...)
-  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  if ... then return B.concant_info(..., 'help_tags') end
   M.setreg()
   vim.cmd 'Telescope help_tags'
 end

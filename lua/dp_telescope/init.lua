@@ -338,6 +338,7 @@ M.defaults = {
     o = { function() M.file_browser_cwd() end, M.file_browser_cwd 'telescope', mode = { 'n', 'v', }, },
     s = {
       name = 'telescope',
+      ['<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, M.find_files_in_current_project_no_ignore 'telescope', mode = { 'n', 'v', }, },
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
       h = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
       v = {

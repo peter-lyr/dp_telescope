@@ -23,16 +23,22 @@ function M.find_files_in_current_project(...)
   vim.cmd 'Telescope find_files'
 end
 
-function M.buffers_in_current_project(...)
+function M.find_files_in_current_project_no_ignore(...)
   if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
-  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
+  vim.cmd 'Telescope find_files find_command=fd,--no-ignore,--hidden'
 end
 
 function M.find_files_in_current_project_git_modified(...)
   if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
   M.setreg()
   vim.cmd 'Telescope git_status'
+end
+
+function M.buffers_in_current_project(...)
+  if ... then return B.concant_info(..., debug.getinfo(1)['name']) end
+  M.setreg()
+  vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
 end
 
 function M.command_history(...)

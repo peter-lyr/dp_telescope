@@ -30,14 +30,18 @@ function M.find_files_in_current_project_no_ignore(...)
   vim.cmd 'Telescope find_files find_command=fd,--no-ignore,--hidden'
 end
 
-function M.find_files_in_all_dp_plugins(...)
-  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins') end
-  M.setreg()
+function M.get_dp_plugins()
   local dirs = {}
   for _, dir in ipairs(B.get_dp_plugins()) do
     dirs[#dirs + 1] = DataLazyPlugins .. '\\' .. dir
   end
-  builtin.find_files { search_dirs = dirs, }
+  return dirs
+end
+
+function M.find_files_in_all_dp_plugins(...)
+  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins') end
+  M.setreg()
+  builtin.find_files { search_dirs = M.get_dp_plugins(), }
 end
 
 function M.find_files_in_current_project_git_modified(...)

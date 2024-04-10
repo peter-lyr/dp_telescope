@@ -10,6 +10,9 @@ if not sta then return print('Dp_base is required!', debug.getinfo(1)['source'])
 if B.check_plugins {
       'git@github.com:peter-lyr/dp_init',
       'folke/which-key.nvim',
+      'nvim-notify',
+      'git@github.com:peter-lyr/telescope.nvim',
+      -- 'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
       'ahmedkhalf/project.nvim',

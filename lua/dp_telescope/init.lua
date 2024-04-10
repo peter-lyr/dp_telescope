@@ -8,6 +8,7 @@ local sta, B = pcall(require, 'dp_base')
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
 if B.check_plugins {
+      'git@github.com:peter-lyr/dp_init',
       'folke/which-key.nvim',
       'nvim-lua/plenary.nvim',
       'nvim-tree/nvim-web-devicons',
@@ -316,6 +317,7 @@ require 'project_nvim'.setup {
   manual_mode = false,
   detection_methods = { 'pattern', 'lsp', },
   patterns = { '.git', },
+  datapath = DataSub,
 }
 
 -- file_browser

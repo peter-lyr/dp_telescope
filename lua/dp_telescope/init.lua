@@ -339,11 +339,13 @@ M.defaults = {
     s = {
       name = 'telescope',
       ['<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, M.find_files_in_current_project_no_ignore 'telescope', mode = { 'n', 'v', }, },
+      l = { function() M.live_grep_no_ignore() end, M.live_grep_no_ignore 'telescope', mode = { 'n', 'v', }, },
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
       h = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
       v = {
         name = 'telescope.more',
         ['<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
+        l = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
         h = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
       },
     },

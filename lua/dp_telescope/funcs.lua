@@ -66,6 +66,12 @@ function M.live_grep(...)
   vim.cmd 'Telescope live_grep'
 end
 
+function M.live_grep_no_ignore(...)
+  if ... then return B.concant_info(..., 'live_grep_no_ignore') end
+  M.setreg()
+  vim.cmd 'Telescope live_grep glob_pattern=*'
+end
+
 function M.file_browser_cwd(...)
   if ... then return B.concant_info(..., 'file_browser_cwd') end
   M.setreg()

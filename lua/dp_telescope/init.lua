@@ -345,7 +345,7 @@ M.defaults = {
       v = {
         name = 'telescope.more',
         ['<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
-        l = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
+        l = { function() M.live_grep_in_all_dp_plugins() end, M.live_grep_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
         h = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
       },
     },

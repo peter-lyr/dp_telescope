@@ -72,6 +72,12 @@ function M.live_grep_no_ignore(...)
   vim.cmd 'Telescope live_grep glob_pattern=*'
 end
 
+function M.live_grep_in_all_dp_plugins(...)
+  if ... then return B.concant_info(..., 'live_grep_in_all_dp_plugins') end
+  M.setreg()
+  builtin.live_grep { search_dirs = B.get_dp_plugins(), }
+end
+
 function M.file_browser_cwd(...)
   if ... then return B.concant_info(..., 'file_browser_cwd') end
   M.setreg()

@@ -342,6 +342,8 @@ M.defaults = {
       l = { function() M.live_grep_no_ignore() end, M.live_grep_no_ignore 'telescope', mode = { 'n', 'v', }, },
       k = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
       h = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
+      o = { function() M.oldfiles() end, M.oldfiles 'telescope', mode = { 'n', 'v', }, silent = true, },
+      j = { function() M.jumplist() end, M.jumplist 'telescope', mode = { 'n', 'v', }, silent = true, },
       v = {
         name = 'telescope.more',
         ['<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
@@ -350,6 +352,16 @@ M.defaults = {
       },
     },
   },
+  ['<c-s-f12>'] = {
+    ['<f1>'] = { function() M.jumplist() end, M.jumplist 'telescope', mode = { 'n', 'v', }, silent = true, },
+    ['<f2>'] = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, silent = true, },
+    ['<f3>'] = { function() M.oldfiles() end, M.oldfiles 'telescope', mode = { 'n', 'v', }, silent = true, },
+    ['<f4>'] = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, silent = true, },
+  },
+  ['<c-s-f12><f1>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
+  ['<c-s-f12><f2>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
+  ['<c-s-f12><f3>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
+  ['<c-s-f12><f4>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
 }
 
 function M.setup(options)

@@ -116,6 +116,18 @@ function M.search_history(...)
   vim.cmd 'Telescope search_history'
 end
 
+function M.oldfiles(...)
+  if ... then return B.concant_info(..., 'oldfiles') end
+  M.setreg()
+  vim.cmd 'Telescope oldfiles'
+end
+
+function M.jumplist(...)
+  if ... then return B.concant_info(..., 'jumplist') end
+  M.setreg()
+  vim.cmd 'Telescope jumplist'
+end
+
 function M.help_tags(...)
   if ... then return B.concant_info(..., 'help_tags') end
   M.setreg()

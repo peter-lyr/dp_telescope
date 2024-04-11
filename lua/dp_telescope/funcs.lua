@@ -134,4 +134,7 @@ function M.help_tags(...)
   vim.cmd 'Telescope help_tags'
 end
 
+function M.nop()
+end
+
 return M

@@ -140,6 +140,12 @@ function M.find_files_in_all_dp_plugins(...)
   builtin.find_files { search_dirs = B.get_dp_plugins(), }
 end
 
+function M.find_files_in_all_dp_plugins_no_ignore(...)
+  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins_no_ignore') end
+  M.setreg()
+  builtin.find_files { search_dirs = B.get_dp_plugins(), no_ignore = true, hidden = true, }
+end
+
 function M.find_files_in_current_project_git_modified(...)
   if ... then return B.concant_info(..., 'find_files_in_current_project_git_modified') end
   M.setreg()
@@ -482,6 +488,10 @@ require 'which-key'.register {
         ['<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
         l = { function() M.live_grep_in_all_dp_plugins() end, M.live_grep_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
         h = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
+        v = {
+          name = 'telescope.more',
+          ['<leader>'] = { function() M.find_files_in_all_dp_plugins_no_ignore() end, M.find_files_in_all_dp_plugins_no_ignore 'telescope', mode = { 'n', 'v', }, },
+        },
       },
     },
   },

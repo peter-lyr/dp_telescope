@@ -48,6 +48,12 @@ function M.buffers_in_current_project(...)
   vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
 end
 
+function M.buffers_in_all_project(...)
+  if ... then return B.concant_info(..., 'buffers_in_all_project') end
+  M.setreg()
+  vim.cmd 'Telescope buffers'
+end
+
 function M.command_history(...)
   if ... then return B.concant_info(..., 'command_history') end
   M.setreg()

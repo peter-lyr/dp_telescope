@@ -458,7 +458,7 @@ require 'project_nvim'.setup {
 -- file_browser
 require 'telescope'.load_extension 'file_browser'
 
-M.defaults = {
+require 'which-key'.register {
   ['<leader>'] = {
     ['<leader>'] = { function() M.find_files_in_current_project() end, M.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },
     b = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
@@ -496,9 +496,5 @@ M.defaults = {
   ['<c-s-f12><f3>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
   ['<c-s-f12><f4>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
 }
-
-function M.setup(options)
-  require 'which-key'.register(vim.tbl_deep_extend('force', {}, M.defaults, options or {}))
-end
 
 return M

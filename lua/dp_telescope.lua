@@ -32,8 +32,8 @@ local actions_layout = require 'telescope.actions.layout'
 M.telescope_cur_root_txt = B.getcreate_file(DataSub, 'telescope-cur-root.txt')
 M.telescope_cur_roots_txt = B.getcreate_file(DataSub, 'telescope-cur-roots.txt')
 
-M.cur_root = B.read_table_from_file(M.telescope_cur_root_txt)
-M.cur_roots = B.read_table_from_file(M.telescope_cur_roots_txt)
+CurRoot = B.read_table_from_file(M.telescope_cur_root_txt)
+CurRoots = B.read_table_from_file(M.telescope_cur_roots_txt)
 
 function M.toggle_result_wrap()
   for winnr = 1, vim.fn.winnr '$' do
@@ -261,8 +261,8 @@ end
 
 B.aucmd({ 'VimLeave', }, 'nvim.telescope.VimLeave', {
   callback = function()
-    B.write_table_to_file(M.telescope_cur_root_txt, M.cur_root)
-    B.write_table_to_file(M.telescope_cur_roots_txt, M.cur_roots)
+    B.write_table_to_file(M.telescope_cur_root_txt, CurRoot)
+    B.write_table_to_file(M.telescope_cur_roots_txt, CurRoots)
   end,
 })
 
@@ -270,18 +270,18 @@ function M._cur_root_sel_do(dir)
   local cwd = B.get_proj_root(dir)
   dir = B.rep(dir)
   require 'dp_nvimtree'.dirs_append(dir)
-  M.cur_root[B.rep(cwd)] = dir
-  if not M.cur_roots[B.rep(cwd)] then
-    M.cur_roots[B.rep(cwd)] = {}
+  CurRoot[B.rep(cwd)] = dir
+  if not CurRoots[B.rep(cwd)] then
+    CurRoots[B.rep(cwd)] = {}
   end
-  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], cwd)
-  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], dir)
+  B.stack_item_uniq(CurRoots[B.rep(cwd)], cwd)
+  B.stack_item_uniq(CurRoots[B.rep(cwd)], dir)
   B.notify_info_append(dir)
 end
 
 function M.root_sel_switch()
   local cwd = B.get_proj_root(B.buf_get_name())
-  local dirs = M.cur_roots[cwd]
+  local dirs = CurRoots[cwd]
   if dirs and #dirs == 1 then
     M._cur_root_sel_do(dirs[1])
   else

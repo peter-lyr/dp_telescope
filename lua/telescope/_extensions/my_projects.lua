@@ -106,11 +106,11 @@ end
 
 local function find_files_cur(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  -- local m = require 'config.nvim.telescope'
-  -- local root_dir = B.rep(project_path)
-  -- if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
-  --   project_path = m.cur_root[root_dir]
-  -- end
+  local m = require 'dp_telescope'
+  local root_dir = B.rep(project_path)
+  if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
+    project_path = m.cur_root[root_dir]
+  end
   local opt = {
     cwd = project_path,
   }
@@ -132,11 +132,11 @@ end
 
 local function live_grep_cur(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  -- local m = require 'config.nvim.telescope'
-  -- local root_dir = B.rep(project_path)
-  -- if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
-  --   project_path = m.cur_root[root_dir]
-  -- end
+  local m = require 'dp_telescope'
+  local root_dir = B.rep(project_path)
+  if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
+    project_path = m.cur_root[root_dir]
+  end
   local opt = {
     cwd = project_path,
   }
@@ -158,11 +158,11 @@ end
 
 local function git_status(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
-  -- local m = require 'config.nvim.telescope'
-  -- local root_dir = B.rep(project_path)
-  -- if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
-  --   project_path = m.cur_root[root_dir]
-  -- end
+  local m = require 'dp_telescope'
+  local root_dir = B.rep(project_path)
+  if B.is(vim.tbl_contains(vim.tbl_keys(m.cur_root), root_dir)) then
+    project_path = m.cur_root[root_dir]
+  end
   local opt = {
     cwd = project_path,
   }

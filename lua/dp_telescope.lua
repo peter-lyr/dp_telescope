@@ -29,6 +29,12 @@ local telescope = require 'telescope'
 local actions = require 'telescope.actions'
 local actions_layout = require 'telescope.actions.layout'
 
+M.telescope_cur_root_txt = B.getcreate_file(DataSub, 'telescope-cur-root.txt')
+M.telescope_cur_roots_txt = B.getcreate_file(DataSub, 'telescope-cur-roots.txt')
+
+M.cur_root = B.read_table_from_file(M.telescope_cur_root_txt)
+M.cur_roots = B.read_table_from_file(M.telescope_cur_roots_txt)
+
 function M.toggle_result_wrap()
   for winnr = 1, vim.fn.winnr '$' do
     local bufnr = vim.fn.winbufnr(winnr)
@@ -251,6 +257,79 @@ function M.help_tags(...)
 end
 
 function M.nop()
+end
+
+B.aucmd({ 'VimLeave', }, 'nvim.telescope.VimLeave', {
+  callback = function()
+    B.write_table_to_file(M.telescope_cur_root_txt, M.cur_root)
+    B.write_table_to_file(M.telescope_cur_roots_txt, M.cur_roots)
+  end,
+})
+
+function M._cur_root_sel_do(dir)
+  local cwd = B.get_proj_root(dir)
+  dir = B.rep(dir)
+  require 'dp_nvimtree'.dirs_append(dir)
+  M.cur_root[B.rep(cwd)] = dir
+  if not M.cur_roots[B.rep(cwd)] then
+    M.cur_roots[B.rep(cwd)] = {}
+  end
+  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], cwd)
+  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], dir)
+  B.notify_info_append(dir)
+end
+
+function M.root_sel_switch()
+  local cwd = B.get_proj_root(B.buf_get_name())
+  local dirs = M.cur_roots[cwd]
+  if dirs and #dirs == 1 then
+    M._cur_root_sel_do(dirs[1])
+  else
+    B.ui_sel(dirs, 'sel as telescope root', function(dir)
+      if dir then
+        M._cur_root_sel_do(dir)
+      end
+    end)
+  end
+end
+
+function M.root_sel_parennt_dirs()
+  local dirs = B.get_file_dirs()
+  if dirs and #dirs == 1 then
+    M._cur_root_sel_do(dirs[1])
+  else
+    B.ui_sel(dirs, 'sel as telescope root', function(dir)
+      if dir then
+        M._cur_root_sel_do(dir)
+      end
+    end)
+  end
+end
+
+function M.root_sel_till_git()
+  local dirs = B.get_file_dirs_till_git()
+  if dirs and #dirs == 1 then
+    M._cur_root_sel_do(dirs[1])
+  else
+    B.ui_sel(dirs, 'sel as telescope root', function(dir)
+      if dir then
+        M._cur_root_sel_do(dir)
+      end
+    end)
+  end
+end
+
+function M.root_sel_scan_dirs()
+  local dirs = B.scan_dirs()
+  if dirs and #dirs == 1 then
+    M._cur_root_sel_do(dirs[1])
+  else
+    B.ui_sel(dirs, 'sel as telescope root', function(dir)
+      if dir then
+        M._cur_root_sel_do(dir)
+      end
+    end)
+  end
 end
 
 telescope.setup {
@@ -492,6 +571,12 @@ require 'which-key'.register {
           name = 'telescope.more',
           ['<leader>'] = { function() M.find_files_in_all_dp_plugins_no_ignore() end, M.find_files_in_all_dp_plugins_no_ignore 'telescope', mode = { 'n', 'v', }, },
         },
+      },
+      r = {
+        ['<leader>'] = { function() M.root_sel_switch() end, 'telescope: root sel_switch', mode = { 'n', 'v', }, silent = true, },
+        ['s'] = { function() M.root_sel_scan_dirs() end, 'telescope: root_sel_scan_dirs', mode = { 'n', 'v', }, silent = true, },
+        ['p'] = { function() M.root_sel_parennt_dirs() end, 'telescope: root_sel_parennt_dirs', mode = { 'n', 'v', }, silent = true, },
+        ['g'] = { function() M.root_sel_till_git() end, 'telescope: root sel till git', mode = { 'n', 'v', }, silent = true, },
       },
     },
   },

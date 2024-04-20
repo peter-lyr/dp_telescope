@@ -7,6 +7,9 @@ local sta, B = pcall(require, 'dp_base')
 
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
 
+M.source = B.getsource(debug.getinfo(1)['source'])
+M.lua = B.getlua(M.source)
+
 if B.check_plugins {
       'git@github.com:peter-lyr/dp_init',
       'folke/which-key.nvim',
@@ -128,86 +131,72 @@ function M.setreg()
   end)
 end
 
-function M.find_files_in_current_project(...)
-  if ... then return B.concant_info(..., 'find_files_in_current_project') end
+function M.find_files_in_current_project()
   M.setreg()
   vim.cmd 'Telescope find_files'
 end
 
-function M.find_files_in_current_project_no_ignore(...)
-  if ... then return B.concant_info(..., 'find_files_in_current_project_no_ignore') end
+function M.find_files_in_current_project_no_ignore()
   M.setreg()
   vim.cmd 'Telescope find_files find_command=fd,--no-ignore,--hidden'
 end
 
-function M.find_files_in_all_dp_plugins(...)
-  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins') end
+function M.find_files_in_all_dp_plugins()
   M.setreg()
   builtin.find_files { search_dirs = B.get_dp_plugins(), }
 end
 
-function M.find_files_in_all_dp_plugins_no_ignore(...)
-  if ... then return B.concant_info(..., 'find_files_in_all_dp_plugins_no_ignore') end
+function M.find_files_in_all_dp_plugins_no_ignore()
   M.setreg()
   builtin.find_files { search_dirs = B.get_dp_plugins(), no_ignore = true, hidden = true, }
 end
 
-function M.find_files_in_current_project_git_modified(...)
-  if ... then return B.concant_info(..., 'find_files_in_current_project_git_modified') end
+function M.find_files_in_current_project_git_modified()
   M.setreg()
   vim.cmd 'Telescope git_status'
 end
 
-function M.buffers_in_current_project(...)
-  if ... then return B.concant_info(..., 'buffers_in_current_project') end
+function M.buffers_in_current_project()
   M.setreg()
   vim.cmd 'Telescope buffers cwd_only=true sort_mru=true sort_lastused=true'
 end
 
-function M.buffers_in_all_project(...)
-  if ... then return B.concant_info(..., 'buffers_in_all_project') end
+function M.buffers_in_all_project()
   M.setreg()
   vim.cmd 'Telescope buffers'
 end
 
-function M.command_history(...)
-  if ... then return B.concant_info(..., 'command_history') end
+function M.command_history()
   M.setreg()
   vim.cmd 'Telescope command_history'
 end
 
-function M.commands(...)
-  if ... then return B.concant_info(..., 'commands') end
+function M.commands()
   M.setreg()
   vim.cmd 'Telescope commands'
 end
 
-function M.live_grep(...)
-  if ... then return B.concant_info(..., 'live_grep') end
+function M.live_grep()
   M.setreg()
   vim.cmd 'Telescope live_grep'
 end
 
-function M.live_grep_no_ignore(...)
-  if ... then return B.concant_info(..., 'live_grep_no_ignore') end
+function M.live_grep_no_ignore()
   M.setreg()
   vim.cmd 'Telescope live_grep glob_pattern=*'
 end
 
-function M.live_grep_in_all_dp_plugins(...)
-  if ... then return B.concant_info(..., 'live_grep_in_all_dp_plugins') end
+function M.live_grep_in_all_dp_plugins()
   M.setreg()
   builtin.live_grep { search_dirs = B.get_dp_plugins(), }
 end
 
-function M.file_browser_cwd(...)
-  if ... then return B.concant_info(..., 'file_browser_cwd') end
+function M.file_browser_cwd()
   M.setreg()
   extensions.file_browser.file_browser()
 end
 
-function M.file_browser_h(...)
-  if ... then return B.concant_info(..., 'file_browser_h') end
+function M.file_browser_h()
   M.setreg()
   extensions.file_browser.file_browser {
     path = '%:p:h',
@@ -220,8 +209,7 @@ function M.projects_do()
   vim.cmd 'Telescope my_projects'
 end
 
-function M.all_projects_opened(...)
-  if ... then return B.concant_info(..., 'all_projects_opened') end
+function M.all_projects_opened()
   M.projects_do()
   vim.cmd [[call feedkeys("\<esc>")]]
   B.lazy_map {
@@ -232,26 +220,22 @@ function M.all_projects_opened(...)
   end)
 end
 
-function M.search_history(...)
-  if ... then return B.concant_info(..., 'search_history') end
+function M.search_history()
   M.setreg()
   vim.cmd 'Telescope search_history'
 end
 
-function M.oldfiles(...)
-  if ... then return B.concant_info(..., 'oldfiles') end
+function M.oldfiles()
   M.setreg()
   vim.cmd 'Telescope oldfiles'
 end
 
-function M.jumplist(...)
-  if ... then return B.concant_info(..., 'jumplist') end
+function M.jumplist()
   M.setreg()
   vim.cmd 'Telescope jumplist'
 end
 
-function M.help_tags(...)
-  if ... then return B.concant_info(..., 'help_tags') end
+function M.help_tags()
   M.setreg()
   vim.cmd 'Telescope help_tags'
 end
@@ -544,37 +528,37 @@ require 'project_nvim'.setup {
 require 'telescope'.load_extension 'file_browser'
 
 require 'which-key'.register {
-  ['<leader><leader>'] = { function() M.find_files_in_current_project() end, M.find_files_in_current_project 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>b'] = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>q'] = { function() M.find_files_in_current_project_git_modified() end, M.find_files_in_current_project_git_modified 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>h'] = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, },
-  ['<leader><c-h>'] = { function() M.commands() end, M.commands 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>l'] = { function() M.live_grep() end, M.live_grep 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>i'] = { function() M.file_browser_h() end, M.file_browser_h 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>o'] = { function() M.file_browser_cwd() end, M.file_browser_cwd 'telescope', mode = { 'n', 'v', }, },
+  ['<leader><leader>'] = { function() M.find_files_in_current_project() end, B.b(M, 'find_files_in_current_project'), mode = { 'n', 'v', }, },
+  ['<leader>b'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, },
+  ['<leader>q'] = { function() M.find_files_in_current_project_git_modified() end, B.b(M, 'find_files_in_current_project_git_modified'), mode = { 'n', 'v', }, },
+  ['<leader>h'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, },
+  ['<leader><c-h>'] = { function() M.commands() end, B.b(M, 'commands'), mode = { 'n', 'v', }, },
+  ['<leader>l'] = { function() M.live_grep() end, B.b(M, 'live_grep'), mode = { 'n', 'v', }, },
+  ['<leader>i'] = { function() M.file_browser_h() end, B.b(M, 'file_browser_h'), mode = { 'n', 'v', }, },
+  ['<leader>o'] = { function() M.file_browser_cwd() end, B.b(M, 'file_browser_cwd'), mode = { 'n', 'v', }, },
   ['<leader>s'] = { name = 'telescope', },
-  ['<leader>sb'] = { function() M.buffers_in_all_project() end, M.buffers_in_all_project 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>s<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, M.find_files_in_current_project_no_ignore 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>sl'] = { function() M.live_grep_no_ignore() end, M.live_grep_no_ignore 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>sk'] = { function() M.all_projects_opened() end, M.all_projects_opened 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>sh'] = { function() M.search_history() end, M.search_history 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>so'] = { function() M.oldfiles() end, M.oldfiles 'telescope', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>sj'] = { function() M.jumplist() end, M.jumplist 'telescope', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>sb'] = { function() M.buffers_in_all_project() end, B.b(M, 'buffers_in_all_project'), mode = { 'n', 'v', }, },
+  ['<leader>s<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, B.b(M, 'find_files_in_current_project_no_ignore'), mode = { 'n', 'v', }, },
+  ['<leader>sl'] = { function() M.live_grep_no_ignore() end, B.b(M, 'live_grep_no_ignore'), mode = { 'n', 'v', }, },
+  ['<leader>sk'] = { function() M.all_projects_opened() end, B.b(M, 'all_projects_opened'), mode = { 'n', 'v', }, },
+  ['<leader>sh'] = { function() M.search_history() end, B.b(M, 'search_history'), mode = { 'n', 'v', }, },
+  ['<leader>so'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>sj'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sv'] = { name = 'telescope.more', },
-  ['<leader>sv<leader>'] = { function() M.find_files_in_all_dp_plugins() end, M.find_files_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>svl'] = { function() M.live_grep_in_all_dp_plugins() end, M.live_grep_in_all_dp_plugins 'telescope', mode = { 'n', 'v', }, },
-  ['<leader>svh'] = { function() M.help_tags() end, M.help_tags 'telescope', mode = { 'n', 'v', }, },
+  ['<leader>sv<leader>'] = { function() M.find_files_in_all_dp_plugins() end, B.b(M, 'find_files_in_all_dp_plugins'), mode = { 'n', 'v', }, },
+  ['<leader>svl'] = { function() M.live_grep_in_all_dp_plugins() end, B.b(M, 'live_grep_in_all_dp_plugins'), mode = { 'n', 'v', }, },
+  ['<leader>svh'] = { function() M.help_tags() end, B.b(M, 'help_tags'), mode = { 'n', 'v', }, },
   ['<leader>svv'] = { name = 'telescope.more', },
-  ['<leader>svv<leader>'] = { function() M.find_files_in_all_dp_plugins_no_ignore() end, M.find_files_in_all_dp_plugins_no_ignore 'telescope', mode = { 'n', 'v', }, },
+  ['<leader>svv<leader>'] = { function() M.find_files_in_all_dp_plugins_no_ignore() end, B.b(M, 'find_files_in_all_dp_plugins_no_ignore'), mode = { 'n', 'v', }, },
   ['<leader>sr'] = { name = 'telescope.cur_root', },
-  ['<leader>sr<leader>'] = { function() M.root_sel_switch() end, 'telescope: root sel_switch', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>srs'] = { function() M.root_sel_scan_dirs() end, 'telescope: root_sel_scan_dirs', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>srp'] = { function() M.root_sel_parennt_dirs() end, 'telescope: root_sel_parennt_dirs', mode = { 'n', 'v', }, silent = true, },
-  ['<leader>srg'] = { function() M.root_sel_till_git() end, 'telescope: root sel till git', mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f1>'] = { function() M.jumplist() end, M.jumplist 'telescope', mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f2>'] = { function() M.command_history() end, M.command_history 'telescope', mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f3>'] = { function() M.oldfiles() end, M.oldfiles 'telescope', mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f4>'] = { function() M.buffers_in_current_project() end, M.buffers_in_current_project 'telescope', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>sr<leader>'] = { function() M.root_sel_switch() end, B.b(M, 'root_sel_switch'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>srs'] = { function() M.root_sel_scan_dirs() end, B.b(M, 'root_sel_scan_dirs'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>srp'] = { function() M.root_sel_parennt_dirs() end, B.b(M, 'root_sel_parennt_dirs'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>srg'] = { function() M.root_sel_till_git() end, B.b(M, 'root_sel_till_git'), mode = { 'n', 'v', }, silent = true, },
+  ['<c-s-f12><f1>'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
+  ['<c-s-f12><f2>'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, silent = true, },
+  ['<c-s-f12><f3>'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
+  ['<c-s-f12><f4>'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {

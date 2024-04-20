@@ -269,7 +269,7 @@ B.aucmd({ 'VimLeave', }, 'nvim.telescope.VimLeave', {
 function M._cur_root_sel_do(dir)
   local cwd = B.get_proj_root(dir)
   dir = B.rep(dir)
-  require 'dp_nvimtree'.dirs_append(dir)
+  require 'dp_nvimtree'._append_dirs(dir)
   CurRoot[B.rep(cwd)] = dir
   if not CurRoots[B.rep(cwd)] then
     CurRoots[B.rep(cwd)] = {}

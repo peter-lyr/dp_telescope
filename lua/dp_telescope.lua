@@ -290,6 +290,11 @@ function M.root_sel_parennt_dirs()
   end
 end
 
+function M.git_branches()
+  M.setreg()
+  vim.cmd 'Telescope git_branches'
+end
+
 function M.root_sel_till_git()
   local dirs = B.get_file_dirs_till_git()
   if dirs and #dirs == 1 then
@@ -555,6 +560,7 @@ require 'which-key'.register {
   ['<leader>srs'] = { function() M.root_sel_scan_dirs() end, B.b(M, 'root_sel_scan_dirs'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>srp'] = { function() M.root_sel_parennt_dirs() end, B.b(M, 'root_sel_parennt_dirs'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>srg'] = { function() M.root_sel_till_git() end, B.b(M, 'root_sel_till_git'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gh'] = { function() M.git_branches() end, B.b(M, 'git_branches'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f1>'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f2>'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f3>'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },

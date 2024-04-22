@@ -534,7 +534,7 @@ require 'telescope'.load_extension 'file_browser'
 
 require 'which-key'.register {
   ['<leader><leader>'] = { function() M.find_files_in_current_project() end, B.b(M, 'find_files_in_current_project'), mode = { 'n', 'v', }, },
-  ['<leader>b'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, },
+  -- ['<leader>b'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, },
   ['<leader>q'] = { function() M.find_files_in_current_project_git_modified() end, B.b(M, 'find_files_in_current_project_git_modified'), mode = { 'n', 'v', }, },
   ['<leader>h'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, },
   ['<leader><c-h>'] = { function() M.commands() end, B.b(M, 'commands'), mode = { 'n', 'v', }, },

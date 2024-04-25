@@ -315,6 +315,16 @@ function M.git_files()
   vim.cmd 'Telescope git_files'
 end
 
+function M.lsp_document_symbols()
+  M.setreg()
+  vim.cmd 'Telescope lsp_document_symbols previewer=true'
+end
+
+function M.lsp_references()
+  M.setreg()
+  vim.cmd 'Telescope lsp_references previewer=true'
+end
+
 function M.root_sel_till_git()
   local dirs = B.get_file_dirs_till_git()
   if dirs and #dirs == 1 then
@@ -584,6 +594,11 @@ require 'which-key'.register {
   ['<c-s-f12><f2>'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f3>'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f4>'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, silent = true, },
+}
+
+require 'which-key'.register {
+  ['<leader>fl'] = { function() M.lsp_document_symbols() end, 'lsp.telescope: document_symbols', mode = { 'n', 'v', }, silent = true, },
+  ['<leader>fr'] = { function() M.lsp_references() end, 'lsp.telescope: references', mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {

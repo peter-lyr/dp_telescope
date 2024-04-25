@@ -295,6 +295,21 @@ function M.git_branches()
   vim.cmd 'Telescope git_branches'
 end
 
+function M.git_commits()
+  M.setreg()
+  vim.cmd 'Telescope git_commits'
+end
+
+function M.git_bcommits()
+  M.setreg()
+  vim.cmd 'Telescope git_bcommits'
+end
+
+function M.git_stash()
+  M.setreg()
+  vim.cmd 'Telescope git_stash'
+end
+
 function M.git_files()
   M.setreg()
   vim.cmd 'Telescope git_files'
@@ -565,8 +580,12 @@ require 'which-key'.register {
   ['<leader>srs'] = { function() M.root_sel_scan_dirs() end, B.b(M, 'root_sel_scan_dirs'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>srp'] = { function() M.root_sel_parennt_dirs() end, B.b(M, 'root_sel_parennt_dirs'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>srg'] = { function() M.root_sel_till_git() end, B.b(M, 'root_sel_till_git'), mode = { 'n', 'v', }, silent = true, },
-  ['<leader>gh'] = { function() M.git_branches() end, B.b(M, 'git_branches'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gt'] = { name = 'git.telescope', },
   ['<leader>gf'] = { function() M.git_files() end, B.b(M, 'git_files'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gh'] = { function() M.git_branches() end, B.b(M, 'git_branches'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gtc'] = { function() M.git_commits() end, B.b(M, 'git_commits'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gtb'] = { function() M.git_bcommits() end, B.b(M, 'git_bcommits'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>gts'] = { function() M.git_stash() end, B.b(M, 'git_stash'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f1>'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f2>'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, silent = true, },
   ['<c-s-f12><f3>'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },

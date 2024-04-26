@@ -325,6 +325,11 @@ function M.lsp_references()
   vim.cmd 'Telescope lsp_references previewer=true'
 end
 
+function M.current_buffer_fuzzy_find()
+  M.setreg()
+  B.cmd 'Telescope current_buffer_fuzzy_find'
+end
+
 function M.root_sel_till_git()
   local dirs = B.get_file_dirs_till_git()
   if dirs and #dirs == 1 then
@@ -579,6 +584,7 @@ require 'which-key'.register {
   ['<leader>sh'] = { function() M.search_history() end, B.b(M, 'search_history'), mode = { 'n', 'v', }, },
   ['<leader>so'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sj'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>sz'] = { function() M.current_buffer_fuzzy_find() end, B.b(M, 'current_buffer_fuzzy_find'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sv'] = { name = 'telescope.more', },
   ['<leader>sv<leader>'] = { function() M.find_files_in_all_dp_plugins() end, B.b(M, 'find_files_in_all_dp_plugins'), mode = { 'n', 'v', }, },
   ['<leader>svl'] = { function() M.live_grep_in_all_dp_plugins() end, B.b(M, 'live_grep_in_all_dp_plugins'), mode = { 'n', 'v', }, },

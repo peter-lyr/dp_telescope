@@ -133,7 +133,14 @@ end
 
 function M.find_files_in_current_project()
   M.setreg()
-  vim.cmd 'Telescope find_files'
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
+    local cmd = B.format('Telescope find_files cwd=%s', CurRoot[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.cmd 'Telescope find_files'
+  end
 end
 
 function M.find_files_in_current_project_no_ignore()
@@ -178,12 +185,26 @@ end
 
 function M.live_grep()
   M.setreg()
-  vim.cmd 'Telescope live_grep'
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
+    local cmd = B.format('Telescope live_grep cwd=%s', CurRoot[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.cmd 'Telescope live_grep'
+  end
 end
 
 function M.live_grep_no_ignore()
   M.setreg()
-  vim.cmd 'Telescope live_grep glob_pattern=*'
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
+    local cmd = B.format('Telescope live_grep glob_pattern=* cwd=%s', CurRoot[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.cmd 'Telescope live_grep glob_pattern=*'
+  end
 end
 
 function M.live_grep_in_all_dp_plugins()
@@ -193,7 +214,14 @@ end
 
 function M.grep_string()
   M.setreg()
-  vim.cmd 'Telescope grep_string'
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
+    local cmd = B.format('Telescope grep_string cwd=%s', CurRoot[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.cmd 'Telescope grep_string'
+  end
 end
 
 function M.file_browser_cwd()

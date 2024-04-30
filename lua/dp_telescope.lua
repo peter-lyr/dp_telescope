@@ -587,7 +587,7 @@ require 'which-key'.register {
   ['<leader><c-h>'] = { function() M.commands() end, B.b(M, 'commands'), mode = { 'n', 'v', }, },
   ['<leader>o'] = { function() M.grep_string() end, B.b(M, 'grep_string'), mode = { 'n', 'v', }, },
   ['<leader>si'] = { function() M.file_browser_h() end, B.b(M, 'file_browser_h'), mode = { 'n', 'v', }, },
-  ['<leader>ssi'] = { function() M.file_browser_cwd() end, B.b(M, 'file_browser_cwd'), mode = { 'n', 'v', }, },
+  ['<leader>svi'] = { function() M.file_browser_cwd() end, B.b(M, 'file_browser_cwd'), mode = { 'n', 'v', }, },
   ['<leader>s'] = { name = 'telescope', },
   ['<leader>sb'] = { function() M.buffers_in_all_project() end, B.b(M, 'buffers_in_all_project'), mode = { 'n', 'v', }, },
   ['<leader>s<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, B.b(M, 'find_files_in_current_project_no_ignore'), mode = { 'n', 'v', }, },

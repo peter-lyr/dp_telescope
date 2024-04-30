@@ -356,6 +356,12 @@ function M.root_sel_scan_dirs()
   end
 end
 
+function M.open_telescope_lua()
+  B.jump_or_edit(M.source)
+  vim.cmd 'norm gg'
+  vim.fn.search('file_ignore_patterns' .. ' = {')
+end
+
 telescope.setup {
   defaults = {
     dynamic_preview_title = true,
@@ -522,6 +528,7 @@ telescope.setup {
       '%.svn',
       '%.bak',
       'obj',
+      'Backup',
     },
     vimgrep_arguments = {
       'rg',
@@ -583,6 +590,7 @@ require 'which-key'.register {
   ['<leader>sk'] = { function() M.all_projects_opened() end, B.b(M, 'all_projects_opened'), mode = { 'n', 'v', }, },
   ['<leader>sh'] = { function() M.search_history() end, B.b(M, 'search_history'), mode = { 'n', 'v', }, },
   ['<leader>so'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
+  ['<leader>sO'] = { function() M.open_telescope_lua() end, B.b(M, 'open_telescope_lua'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sj'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>/'] = { function() M.current_buffer_fuzzy_find() end, B.b(M, 'current_buffer_fuzzy_find'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sv'] = { name = 'telescope.more', },

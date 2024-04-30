@@ -191,6 +191,11 @@ function M.live_grep_in_all_dp_plugins()
   builtin.live_grep { search_dirs = B.get_dp_plugins(), }
 end
 
+function M.grep_string()
+  M.setreg()
+  vim.cmd 'Telescope grep_string'
+end
+
 function M.file_browser_cwd()
   M.setreg()
   extensions.file_browser.file_browser()
@@ -580,12 +585,13 @@ require 'which-key'.register {
   ['<leader>q'] = { function() M.find_files_in_current_project_git_modified() end, B.b(M, 'find_files_in_current_project_git_modified'), mode = { 'n', 'v', }, },
   ['<leader>h'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, },
   ['<leader><c-h>'] = { function() M.commands() end, B.b(M, 'commands'), mode = { 'n', 'v', }, },
-  ['<leader>l'] = { function() M.live_grep() end, B.b(M, 'live_grep'), mode = { 'n', 'v', }, },
-  ['<leader>i'] = { function() M.file_browser_h() end, B.b(M, 'file_browser_h'), mode = { 'n', 'v', }, },
-  ['<leader>o'] = { function() M.file_browser_cwd() end, B.b(M, 'file_browser_cwd'), mode = { 'n', 'v', }, },
+  ['<leader>o'] = { function() M.grep_string() end, B.b(M, 'grep_string'), mode = { 'n', 'v', }, },
+  ['<leader>si'] = { function() M.file_browser_h() end, B.b(M, 'file_browser_h'), mode = { 'n', 'v', }, },
+  ['<leader>ssi'] = { function() M.file_browser_cwd() end, B.b(M, 'file_browser_cwd'), mode = { 'n', 'v', }, },
   ['<leader>s'] = { name = 'telescope', },
   ['<leader>sb'] = { function() M.buffers_in_all_project() end, B.b(M, 'buffers_in_all_project'), mode = { 'n', 'v', }, },
   ['<leader>s<leader>'] = { function() M.find_files_in_current_project_no_ignore() end, B.b(M, 'find_files_in_current_project_no_ignore'), mode = { 'n', 'v', }, },
+  ['<leader>l'] = { function() M.live_grep() end, B.b(M, 'live_grep'), mode = { 'n', 'v', }, },
   ['<leader>sl'] = { function() M.live_grep_no_ignore() end, B.b(M, 'live_grep_no_ignore'), mode = { 'n', 'v', }, },
   ['<leader>sk'] = { function() M.all_projects_opened() end, B.b(M, 'all_projects_opened'), mode = { 'n', 'v', }, },
   ['<leader>sh'] = { function() M.search_history() end, B.b(M, 'search_history'), mode = { 'n', 'v', }, },

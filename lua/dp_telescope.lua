@@ -25,6 +25,16 @@ if B.check_plugins {
   return
 end
 
+function M.open_telescope_lua()
+  B.jump_or_edit(M.source)
+  vim.cmd 'norm gg'
+  vim.fn.search('file_ignore_patterns' .. ' = {')
+end
+
+require 'which-key'.register {
+  ['<leader>s<f1>'] = { function() M.open_telescope_lua() end, B.b(M, 'open_telescope_lua'), mode = { 'n', 'v', }, silent = true, },
+}
+
 local extensions = require 'telescope'.extensions
 local builtin = require 'telescope.builtin'
 
@@ -389,12 +399,6 @@ function M.root_sel_scan_dirs()
   end
 end
 
-function M.open_telescope_lua()
-  B.jump_or_edit(M.source)
-  vim.cmd 'norm gg'
-  vim.fn.search('file_ignore_patterns' .. ' = {')
-end
-
 telescope.setup {
   defaults = {
     dynamic_preview_title = true,
@@ -648,10 +652,6 @@ require 'which-key'.register {
   ['<leader>so'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sj'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>sdh'] = { function() M.help_tags() end, B.b(M, 'help_tags'), mode = { 'n', 'v', }, },
-}
-
-require 'which-key'.register {
-  ['<leader>sO'] = { function() M.open_telescope_lua() end, B.b(M, 'open_telescope_lua'), mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {

@@ -1,6 +1,8 @@
 -- Copyright (c) 2024 liudepei. All Rights Reserved.
 -- create at 2024/04/04 00:06:24 星期四
 
+local M = {}
+
 local sta, B = pcall(require, 'dp_base')
 
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
@@ -10,6 +12,8 @@ if B.check_plugins {
     } then
   return
 end
+
+M.telescope_cur_root = B.get_telescope_cur_root()
 
 -- Inspiration from:
 -- https://github.com/nvim-telescope/telescope-project.nvim
@@ -113,8 +117,8 @@ end
 local function find_files_cur(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
   local root_dir = B.rep(project_path)
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    project_path = CurRoot[root_dir]
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.telescope_cur_root), root_dir)) then
+    project_path = M.telescope_cur_root[root_dir]
   end
   local opt = {
     cwd = project_path,
@@ -138,8 +142,8 @@ end
 local function live_grep_cur(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
   local root_dir = B.rep(project_path)
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    project_path = CurRoot[root_dir]
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.telescope_cur_root), root_dir)) then
+    project_path = M.telescope_cur_root[root_dir]
   end
   local opt = {
     cwd = project_path,
@@ -163,8 +167,8 @@ end
 local function git_status(prompt_bufnr)
   local project_path, cd_successful = change_working_directory(prompt_bufnr, true)
   local root_dir = B.rep(project_path)
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    project_path = CurRoot[root_dir]
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.telescope_cur_root), root_dir)) then
+    project_path = M.telescope_cur_root[root_dir]
   end
   local opt = {
     cwd = project_path,

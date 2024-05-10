@@ -42,11 +42,8 @@ local telescope = require 'telescope'
 local actions = require 'telescope.actions'
 local actions_layout = require 'telescope.actions.layout'
 
-M.telescope_cur_root_txt = B.getcreate_file(DataSub, 'telescope-cur-root.txt')
-M.telescope_cur_roots_txt = B.getcreate_file(DataSub, 'telescope-cur-roots.txt')
-
-CurRoot = B.read_table_from_file(M.telescope_cur_root_txt)
-CurRoots = B.read_table_from_file(M.telescope_cur_roots_txt)
+M.cur_root = B.get_telescope_cur_root()
+M.cur_roots = B.get_telescope_cur_roots()
 
 function M.toggle_result_wrap()
   for winnr = 1, vim.fn.winnr '$' do
@@ -144,8 +141,8 @@ end
 function M.find_files_in_current_project()
   M.setreg()
   local root_dir = B.get_proj_root()
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    local cmd = B.format('Telescope find_files cwd=%s', CurRoot[root_dir])
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope find_files cwd=%s', M.cur_root[root_dir])
     B.cmd(cmd)
     B.notify_info(cmd)
   else
@@ -196,8 +193,8 @@ end
 function M.live_grep()
   M.setreg()
   local root_dir = B.get_proj_root()
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    local cmd = B.format('Telescope live_grep cwd=%s', CurRoot[root_dir])
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope live_grep cwd=%s', M.cur_root[root_dir])
     B.cmd(cmd)
     B.notify_info(cmd)
   else
@@ -208,8 +205,8 @@ end
 function M.live_grep_no_ignore()
   M.setreg()
   local root_dir = B.get_proj_root()
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    local cmd = B.format('Telescope live_grep glob_pattern=* cwd=%s', CurRoot[root_dir])
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope live_grep glob_pattern=* cwd=%s', M.cur_root[root_dir])
     B.cmd(cmd)
     B.notify_info(cmd)
   else
@@ -225,8 +222,8 @@ end
 function M.grep_string()
   M.setreg()
   local root_dir = B.get_proj_root()
-  if B.is(vim.tbl_contains(vim.tbl_keys(CurRoot), root_dir)) then
-    local cmd = B.format('Telescope grep_string cwd=%s', CurRoot[root_dir])
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope grep_string cwd=%s', M.cur_root[root_dir])
     B.cmd(cmd)
     B.notify_info(cmd)
   else
@@ -288,8 +285,8 @@ end
 
 B.aucmd({ 'VimLeave', }, 'nvim.telescope.VimLeave', {
   callback = function()
-    B.write_table_to_file(M.telescope_cur_root_txt, CurRoot)
-    B.write_table_to_file(M.telescope_cur_roots_txt, CurRoots)
+    B.write_table_to_file(TelecopeCurRootTxt, M.cur_root)
+    B.write_table_to_file(TelecopeCurRootsTxt, M.cur_roots)
   end,
 })
 
@@ -297,18 +294,18 @@ function M._cur_root_sel_do(dir)
   local cwd = B.get_proj_root(dir)
   dir = B.rep(dir)
   require 'dp_nvimtree'._append_dirs(dir)
-  CurRoot[B.rep(cwd)] = dir
-  if not CurRoots[B.rep(cwd)] then
-    CurRoots[B.rep(cwd)] = {}
+  M.cur_root[B.rep(cwd)] = dir
+  if not M.cur_roots[B.rep(cwd)] then
+    M.cur_roots[B.rep(cwd)] = {}
   end
-  B.stack_item_uniq(CurRoots[B.rep(cwd)], cwd)
-  B.stack_item_uniq(CurRoots[B.rep(cwd)], dir)
+  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], cwd)
+  B.stack_item_uniq(M.cur_roots[B.rep(cwd)], dir)
   B.notify_info_append(dir)
 end
 
 function M.root_sel_switch()
   local cwd = B.get_proj_root(B.buf_get_name())
-  local dirs = CurRoots[cwd]
+  local dirs = M.cur_roots[cwd]
   if dirs and #dirs == 1 then
     M._cur_root_sel_do(dirs[1])
   else

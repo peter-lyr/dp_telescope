@@ -231,6 +231,19 @@ function M.grep_string()
   end
 end
 
+function M.grep_string_cWORD()
+  M.setreg()
+  local root_dir = B.get_proj_root()
+  local cWORD = vim.fn.expand '<cWORD>'
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope grep_string cwd=%s search=%s', M.cur_root[root_dir], cWORD)
+    require 'telescope.builtin'.grep_string { cwd = M.cur_root[root_dir], search = cWORD, }
+    B.notify_info(cmd)
+  else
+    require 'telescope.builtin'.grep_string { search = cWORD, }
+  end
+end
+
 function M.file_browser_cwd()
   M.setreg()
   extensions.file_browser.file_browser()
@@ -616,19 +629,19 @@ require 'which-key'.register {
 }
 
 require 'which-key'.register {
-  ['<leader>sm'] = { function() M.find_files_in_current_project_git_modified() end, B.b(M, 'find_files_in_current_project_git_modified'), mode = { 'n', 'v', }, },
-  ['<leader>sf'] = { function() M.find_files_in_current_project() end, B.b(M, 'find_files_in_current_project'), mode = { 'n', 'v', }, },
-  ['<leader>sdf'] = { function() M.find_files_in_current_project_no_ignore() end, B.b(M, 'find_files_in_current_project_no_ignore'), mode = { 'n', 'v', }, },
-  ['<leader>sb'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, },
-  ['<leader>sdb'] = { function() M.buffers_in_all_project() end, B.b(M, 'buffers_in_all_project'), mode = { 'n', 'v', }, },
+  -- ['<leader><tab>'] = { function() M.find_files_in_current_project_git_modified() end, B.b(M, 'find_files_in_current_project_git_modified'), mode = { 'n', 'v', }, },
+  -- ['<leader><leader>'] = { function() M.find_files_in_current_project() end, B.b(M, 'find_files_in_current_project'), mode = { 'n', 'v', }, },
+  ['<leader>sf'] = { function() M.find_files_in_current_project_no_ignore() end, B.b(M, 'find_files_in_current_project_no_ignore'), mode = { 'n', 'v', }, },
+  -- ['<leader><bs>'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, },
+  -- ['<leader><c-bs>'] = { function() M.buffers_in_all_project() end, B.b(M, 'buffers_in_all_project'), mode = { 'n', 'v', }, },
   ['<leader>sk'] = { function() M.all_projects_opened() end, B.b(M, 'all_projects_opened'), mode = { 'n', 'v', }, },
 }
 
 require 'which-key'.register {
-  ['<leader>ss'] = { function() M.grep_string() end, B.b(M, 'grep_string'), mode = { 'n', 'v', }, },
-  ['<leader>sl'] = { function() M.live_grep() end, B.b(M, 'live_grep'), mode = { 'n', 'v', }, },
-  ['<leader>sdl'] = { function() M.live_grep_no_ignore() end, B.b(M, 'live_grep_no_ignore'), mode = { 'n', 'v', }, },
-  ['<leader>s/'] = { function() M.current_buffer_fuzzy_find() end, B.b(M, 'current_buffer_fuzzy_find'), mode = { 'n', 'v', }, silent = true, },
+  -- ['<leader><cr>'] = { function() M.grep_string() end, B.b(M, 'grep_string'), mode = { 'n', 'v', }, },
+  -- ['<leader>l'] = { function() M.live_grep() end, B.b(M, 'live_grep'), mode = { 'n', 'v', }, },
+  ['<leader>sl'] = { function() M.live_grep_no_ignore() end, B.b(M, 'live_grep_no_ignore'), mode = { 'n', 'v', }, },
+  -- ['<leader>/'] = { function() M.current_buffer_fuzzy_find() end, B.b(M, 'current_buffer_fuzzy_find'), mode = { 'n', 'v', }, silent = true, },
 }
 
 require 'which-key'.register {
@@ -652,13 +665,6 @@ require 'which-key'.register {
 }
 
 require 'which-key'.register {
-  ['<c-s-f12><f1>'] = { function() M.jumplist() end, B.b(M, 'jumplist'), mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f2>'] = { function() M.command_history() end, B.b(M, 'command_history'), mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f3>'] = { function() M.oldfiles() end, B.b(M, 'oldfiles'), mode = { 'n', 'v', }, silent = true, },
-  ['<c-s-f12><f4>'] = { function() M.buffers_in_current_project() end, B.b(M, 'buffers_in_current_project'), mode = { 'n', 'v', }, silent = true, },
-}
-
-require 'which-key'.register {
   ['<leader>sr'] = { name = 'telescope.cur_root', },
   ['<leader>sr<leader>'] = { function() M.root_sel_switch() end, B.b(M, 'root_sel_switch'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>srs'] = { function() M.root_sel_scan_dirs() end, B.b(M, 'root_sel_scan_dirs'), mode = { 'n', 'v', }, silent = true, },
@@ -678,13 +684,6 @@ require 'which-key'.register {
   ['<leader>gtc'] = { function() M.git_commits() end, B.b(M, 'git_commits'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>gtb'] = { function() M.git_bcommits() end, B.b(M, 'git_bcommits'), mode = { 'n', 'v', }, silent = true, },
   ['<leader>gts'] = { function() M.git_stash() end, B.b(M, 'git_stash'), mode = { 'n', 'v', }, silent = true, },
-}
-
-require 'which-key'.register {
-  ['<c-s-f12><f1>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
-  ['<c-s-f12><f2>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
-  ['<c-s-f12><f3>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
-  ['<c-s-f12><f4>'] = { function() M.nop() end, 'telescope: nop', mode = { 'i', }, silent = true, },
 }
 
 return M

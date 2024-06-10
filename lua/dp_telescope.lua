@@ -409,6 +409,24 @@ function M.root_sel_scan_dirs()
   end
 end
 
+function M.get_telescopes()
+  local telescopes = {}
+  for _, t in ipairs(vim.fn.getcompletion('Telescope ', 'cmdline')) do
+    telescopes[#telescopes + 1] = t
+  end
+  print('vim.inspect(telescopes):', vim.inspect(telescopes))
+  return telescopes
+end
+
+function M.telescope()
+  local telescopes = M.get_telescopes()
+  B.ui_sel(telescopes, 'sel as telescope root', function(t)
+    if t then
+      B.cmd([[call feedkeys(":\<c-u>Telescope %s")]], t)
+    end
+  end)
+end
+
 telescope.setup {
   defaults = {
     dynamic_preview_title = true,
@@ -625,7 +643,7 @@ require 'which-key'.register {
   ['<leader>s'] = { name = 'telescope', },
   ['<leader>sd'] = { name = 'telescope.more', },
   ['<leader>sdd'] = { name = 'telescope.more', },
-  ['<leader>s<leader>'] = { '<cmd>Telescope<cr>', 'Telescope', mode = { 'n', 'v', }, },
+  ['<leader>s<leader>'] = { function() M.telescope() end, 'Telescope', mode = { 'n', 'v', }, },
 }
 
 require 'which-key'.register {

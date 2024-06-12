@@ -303,6 +303,8 @@ return require 'telescope'.register_extension {
                 if B.is(val) and B.is_file(val) and not B.is_detected_as_bin(val) then
                   lines = vim.fn.readfile(val)
                   entry.title = val
+                elseif B.is(val) and B.is_file(val) and B.is_detected_as_bin(val) then
+                  require 'dp_neorg'.quicklook_do_do(val)
                 else
                   lines = vim.split(items[entry.index], '\n')
                   entry.title = ''

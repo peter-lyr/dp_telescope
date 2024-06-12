@@ -1,6 +1,8 @@
 -- Copyright (c) 2024 liudepei. All Rights Reserved.
 -- create at 2024/04/04 00:07:07 星期四
 
+local M = {}
+
 local sta, B = pcall(require, 'dp_base')
 
 if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
@@ -114,6 +116,8 @@ local function multi_selection(prompt_bufnr, cb)
     cb(Ui_sel_items[selection.value.idx], selection.value.idx)
   end
 end
+
+M.quicklook_file = ''
 
 return require 'telescope'.register_extension {
   setup = function(topts)
@@ -276,17 +280,20 @@ return require 'telescope'.register_extension {
                   actions.close(prompt_bufnr)
                   utils.__warn_no_selection 'ui-select'
                   cb(nil, nil)
+                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
                   return
                 end
                 if opts.multi_en then
                   multi_selection(prompt_bufnr, cb)
                   return
                 end
+                require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
                 actions.close(prompt_bufnr)
                 cb(items[selection.value.idx], selection.value.idx)
               end)
               actions.close:enhance {
                 post = function()
+                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
                   on_choice(nil, nil)
                 end,
               }
@@ -304,7 +311,8 @@ return require 'telescope'.register_extension {
                   lines = vim.fn.readfile(val)
                   entry.title = val
                 elseif B.is(val) and B.is_file(val) and B.is_detected_as_bin(val) then
-                  require 'dp_neorg'.quicklook_do_do(val)
+                  M.quicklook_file = val
+                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
                 else
                   lines = vim.split(items[entry.index], '\n')
                   entry.title = ''

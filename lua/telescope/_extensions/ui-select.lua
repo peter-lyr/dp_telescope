@@ -119,6 +119,15 @@ end
 
 M.quicklook_file = ''
 
+M.quicklook_file_ends = {}
+
+function M.quicklook_quit()
+  if not B.is_in_tbl(M.quicklook_file, M.quicklook_file_ends) then
+    M.quicklook_file_ends[#M.quicklook_file_ends+1] = M.quicklook_file
+    require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+  end
+end
+
 return require 'telescope'.register_extension {
   setup = function(topts)
     local specific_opts = vim.F.if_nil(topts.specific_opts, {})
@@ -193,6 +202,7 @@ return require 'telescope'.register_extension {
     )
 
     vim.ui.select = function(items, opts, on_choice)
+      M.quicklook_file_ends = {}
       opts = opts or {}
       local prompt = vim.F.if_nil(opts.prompt, 'Select one of')
       if prompt:sub(-1, -1) == ':' then
@@ -280,20 +290,20 @@ return require 'telescope'.register_extension {
                   actions.close(prompt_bufnr)
                   utils.__warn_no_selection 'ui-select'
                   cb(nil, nil)
-                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+                  M.quicklook_quit()
                   return
                 end
                 if opts.multi_en then
                   multi_selection(prompt_bufnr, cb)
                   return
                 end
-                require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+                M.quicklook_quit()
                 actions.close(prompt_bufnr)
                 cb(items[selection.value.idx], selection.value.idx)
               end)
               actions.close:enhance {
                 post = function()
-                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+                  M.quicklook_quit()
                   on_choice(nil, nil)
                 end,
               }

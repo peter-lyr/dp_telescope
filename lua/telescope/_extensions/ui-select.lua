@@ -124,7 +124,7 @@ M.quicklook_file_ends = {}
 function M.quicklook_quit()
   if not B.is_in_tbl(M.quicklook_file, M.quicklook_file_ends) then
     M.quicklook_file_ends[#M.quicklook_file_ends+1] = M.quicklook_file
-    require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+    require 'dp_neorg'.quicklook_do(M.quicklook_file)
   end
 end
 
@@ -322,7 +322,7 @@ return require 'telescope'.register_extension {
                   entry.title = val
                 elseif B.is(val) and B.is_file(val) and B.is_detected_as_bin(val) then
                   M.quicklook_file = val
-                  require 'dp_neorg'.quicklook_do_do(M.quicklook_file)
+                  require 'dp_neorg'.quicklook_do(M.quicklook_file)
                 else
                   lines = vim.split(items[entry.index], '\n')
                   entry.title = ''

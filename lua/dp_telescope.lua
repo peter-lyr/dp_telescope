@@ -68,6 +68,10 @@ M.root_dict = {
       'xm',
     },
     {
+      'app/projects',
+      'app/bsp',
+      'libs/libplatform',
+      'libs/platform',
       '.cache',
       'build',
       'CMakeLists.txt',

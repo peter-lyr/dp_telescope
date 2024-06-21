@@ -185,7 +185,7 @@ function M.find_files_in_current_project()
         break
       end
     end
-    if dir then
+    if B.is(dir) then
       local cmd = B.format('Telescope find_files cwd=%s', dir)
       B.cmd(cmd)
       B.notify_info(cmd)

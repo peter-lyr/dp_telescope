@@ -64,6 +64,7 @@ M.root_dict = {
       'setting',
       'txt',
       'wav',
+      'workspace',
       'xm',
     },
     {

@@ -686,7 +686,10 @@ require 'project_nvim'.setup {
 }
 
 -- file_browser
-require 'telescope'.load_extension 'file_browser'
+telescope.load_extension 'file_browser'
+
+-- git_file_history
+telescope.load_extension("git_file_history")
 
 require 'which-key'.register {
   ['<leader>s'] = { name = 'telescope', },

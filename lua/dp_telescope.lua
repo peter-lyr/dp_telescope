@@ -45,6 +45,36 @@ local actions_layout = require 'telescope.actions.layout'
 M.cur_root = B.get_telescope_cur_root()
 M.cur_roots = B.get_telescope_cur_roots()
 
+M.root_dict = {
+  ['sdk'] = {
+    {
+      'a',
+      'bat',
+      'bin',
+      'c',
+      'cbp',
+      'dcf',
+      'drc',
+      'eq',
+      'eqproj ',
+      'h',
+      'ld',
+      'mp3',
+      'rv32',
+      'setting',
+      'txt',
+      'wav',
+      'xm',
+    },
+    {
+      '.cache',
+      'build',
+      'CMakeLists.txt',
+      'compile_commands.json',
+    },
+  },
+}
+
 function M.toggle_result_wrap()
   for winnr = 1, vim.fn.winnr '$' do
     local bufnr = vim.fn.winbufnr(winnr)
@@ -146,7 +176,21 @@ function M.find_files_in_current_project()
     B.cmd(cmd)
     B.notify_info(cmd)
   else
-    vim.cmd 'Telescope find_files'
+    local dir = ''
+    for _, vals in pairs(M.root_dict) do
+      local temp = B.find_dir_till_git(vals[1], vals[2])
+      if temp then
+        dir = temp
+        break
+      end
+    end
+    if dir then
+      local cmd = B.format('Telescope find_files cwd=%s', dir)
+      B.cmd(cmd)
+      B.notify_info(cmd)
+    else
+      vim.cmd 'Telescope find_files'
+    end
   end
 end
 

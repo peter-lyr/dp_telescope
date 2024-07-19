@@ -149,19 +149,19 @@ function M.find_files_in_current_project()
     vim.cmd 'Telescope find_files'
   end
 end
-      if temp then
-        dir = temp
-        break
-      end
-    end
-    if B.is(dir) then
-      local cmd = B.format('Telescope find_files cwd=%s', dir)
-      B.cmd(cmd)
-      B.notify_info(cmd)
-    else
-      vim.cmd 'Telescope find_files'
-    end
+
+function M.find_files_in_current_git_project()
+  M.setreg()
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope find_files cwd=%s', M.cur_root[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.g.rootmarkers = { '.git', }
+    vim.cmd 'Telescope find_files'
   end
+  vim.g.rootmarkers = RootMarkers
 end
 
 function M.find_files_in_current_project_no_ignore()

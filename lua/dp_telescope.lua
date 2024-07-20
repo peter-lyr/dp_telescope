@@ -150,6 +150,16 @@ function M.find_files_in_current_project()
   end
 end
 
+B.aucmd({ 'BufLeave', 'BufWinLeave', }, 'telescope.bufleave', {
+  callback = function(ev)
+    if vim.bo[ev.buf].filetype == 'TelescopePrompt' then
+      B.set_timeout(100, function()
+        vim.g.rootmarkers = RootMarkers
+      end)
+    end
+  end,
+})
+
 function M.find_files_in_current_git_project()
   M.setreg()
   local root_dir = B.get_proj_root()
@@ -161,7 +171,6 @@ function M.find_files_in_current_git_project()
     vim.g.rootmarkers = { '.git', }
     vim.cmd 'Telescope find_files'
   end
-  vim.g.rootmarkers = RootMarkers
 end
 
 function M.find_files_in_current_project_no_ignore()
@@ -654,7 +663,7 @@ require 'project_nvim'.setup {
 telescope.load_extension 'file_browser'
 
 -- git_file_history
-telescope.load_extension("git_file_history")
+telescope.load_extension 'git_file_history'
 
 require 'which-key'.register {
   ['<leader>s'] = { name = 'telescope', },

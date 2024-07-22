@@ -225,6 +225,19 @@ function M.live_grep()
   end
 end
 
+function M.live_grep_git()
+  M.setreg()
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope live_grep cwd=%s', M.cur_root[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.g.rootmarkers = { '.git', }
+    vim.cmd 'Telescope live_grep'
+  end
+end
+
 function M.live_grep_no_ignore()
   M.setreg()
   local root_dir = B.get_proj_root()
@@ -254,6 +267,19 @@ function M.grep_string()
   end
 end
 
+function M.grep_string_git()
+  M.setreg()
+  local root_dir = B.get_proj_root()
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope grep_string cwd=%s', M.cur_root[root_dir])
+    B.cmd(cmd)
+    B.notify_info(cmd)
+  else
+    vim.g.rootmarkers = { '.git', }
+    vim.cmd 'Telescope grep_string'
+  end
+end
+
 function M.grep_string_cWORD()
   M.setreg()
   local root_dir = B.get_proj_root()
@@ -263,6 +289,20 @@ function M.grep_string_cWORD()
     require 'telescope.builtin'.grep_string { cwd = M.cur_root[root_dir], search = cWORD, }
     B.notify_info(cmd)
   else
+    require 'telescope.builtin'.grep_string { search = cWORD, }
+  end
+end
+
+function M.grep_string_cWORD_git()
+  M.setreg()
+  local root_dir = B.get_proj_root()
+  local cWORD = vim.fn.expand '<cWORD>'
+  if B.is(vim.tbl_contains(vim.tbl_keys(M.cur_root), root_dir)) then
+    local cmd = B.format('Telescope grep_string cwd=%s search=%s', M.cur_root[root_dir], cWORD)
+    require 'telescope.builtin'.grep_string { cwd = M.cur_root[root_dir], search = cWORD, }
+    B.notify_info(cmd)
+  else
+    vim.g.rootmarkers = { '.git', }
     require 'telescope.builtin'.grep_string { search = cWORD, }
   end
 end

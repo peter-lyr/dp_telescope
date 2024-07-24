@@ -190,6 +190,7 @@ end
 
 function M.find_files_in_current_project_git_modified()
   M.setreg()
+  vim.g.rootmarkers = { '.git', }
   vim.cmd 'Telescope git_status'
 end
 

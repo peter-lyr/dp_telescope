@@ -169,9 +169,8 @@ function M.find_files_in_current_git_project()
     B.notify_info(cmd)
   else
     vim.g.rootmarkers = { '.git', }
-    B.set_timeout(10, function()
-      vim.cmd 'Telescope find_files'
-    end)
+    vim.cmd 'e!'
+    vim.cmd 'Telescope find_files'
   end
 end
 
@@ -239,9 +238,8 @@ function M.live_grep_git()
     B.notify_info(cmd)
   else
     vim.g.rootmarkers = { '.git', }
-    B.set_timeout(10, function()
-      vim.cmd 'Telescope live_grep'
-    end)
+    vim.cmd 'e!'
+    vim.cmd 'Telescope live_grep'
   end
 end
 
@@ -283,9 +281,8 @@ function M.grep_string_git()
     B.notify_info(cmd)
   else
     vim.g.rootmarkers = { '.git', }
-    B.set_timeout(10, function()
-      vim.cmd 'Telescope grep_string'
-    end)
+    vim.cmd 'e!'
+    vim.cmd 'Telescope grep_string'
   end
 end
 
@@ -312,9 +309,8 @@ function M.grep_string_cWORD_git()
     B.notify_info(cmd)
   else
     vim.g.rootmarkers = { '.git', }
-    B.set_timeout(10, function()
-      require 'telescope.builtin'.grep_string { search = cWORD, }
-    end)
+    vim.cmd 'e!'
+    require 'telescope.builtin'.grep_string { search = cWORD, }
   end
 end
 

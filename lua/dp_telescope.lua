@@ -192,9 +192,8 @@ end
 function M.find_files_in_current_project_git_modified()
   M.setreg()
   vim.g.rootmarkers = { '.git', }
-  B.set_timeout(10, function()
-    vim.cmd 'Telescope git_status'
-  end)
+  vim.cmd 'e!'
+  vim.cmd 'Telescope git_status'
 end
 
 function M.buffers_in_current_project()

@@ -263,26 +263,19 @@ return require 'telescope'.register_extension {
               end,
             },
             attach_mappings = function(prompt_bufnr, map)
-              map('n', '<C-Tab>', send_open_to_qflist, { nowait = true, })
-              map('i', '<C-Tab>', send_open_to_qflist, { nowait = true, })
+              map({ 'n', 'i', }, '<C-Tab>', send_open_to_qflist, { nowait = true, })
 
               map('n', ';', live_grep, { nowait = true, })
-              map('i', '<f1>', live_grep, { nowait = true, })
 
               map('n', 'n', find_files, { nowait = true, })
-              map('i', '<F7>', find_files, { nowait = true, })
 
               map('n', 'm', explorer, { nowait = true, })
-              map('i', '<f8>', explorer, { nowait = true, })
 
               map('n', 'c', grep_string, { nowait = true, })
-              map('i', '<F4>', grep_string, { nowait = true, })
 
               map('n', 'o', open, { nowait = true, })
-              map('i', '<c-o>', open, { nowait = true, })
 
               map('n', 'dd', remove_selected_items, { nowait = true, })
-              map('i', '<a-d>', remove_selected_items, { nowait = true, })
 
               actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()

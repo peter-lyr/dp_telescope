@@ -232,23 +232,11 @@ local function my_projects(opts)
     sorter = telescope_config.generic_sorter(opts),
     attach_mappings = function(prompt_bufnr, map)
       map('n', 'z', delete_project, { nowait = true, })
-      map('i', '<F2>', delete_project, { nowait = true, })
-
       map('n', ';', live_grep_cur, { nowait = true, })
-      map('i', '<f1>', live_grep_cur, { nowait = true, })
-
       map('n', '<c-;>', live_grep_root, { nowait = true, })
-      map('i', '<c-f1>', live_grep_root, { nowait = true, })
-
       map('n', 'b', git_status, { nowait = true, })
-      map('i', '<F6>', git_status, { nowait = true, })
-
       map('n', '<c-b>', git_status_all, { nowait = true, })
-      map('i', '<C-F6>', git_status_all, { nowait = true, })
-
       map('n', '<c-cr>', find_files_all, { nowait = true, })
-      map('i', '<c-cr>', find_files_all, { nowait = true, })
-
       map('i', '<cr>', find_files_cur, { nowait = true, })
 
       local on_project_selected = function()

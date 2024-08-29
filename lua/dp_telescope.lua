@@ -153,9 +153,8 @@ end
 B.aucmd({ 'BufLeave', 'BufWinLeave', }, 'telescope.bufleave', {
   callback = function(ev)
     if vim.bo[ev.buf].filetype == 'TelescopePrompt' then
-      B.set_timeout(100, function()
-        vim.g.rootmarkers = RootMarkers
-      end)
+      vim.g.rootmarkers = RootMarkers
+      -- B.set_timeout(10, function() vim.g.rootmarkers = RootMarkers end)
     end
   end,
 })
